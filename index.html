@@ -87,21 +87,153 @@
     </section>
   </main>
 
+  <!-- Error Tracking Script -->
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({
+      token: "8126b5bd8f4c4cd1b319c67c519be935"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+  <script>
+    // Track Agent Logging
+    TrackJS.track('Testing TrackJS!');
+
+    // Custom Error
+    class CalculatorError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "Calculator Error";
+      }
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      // Try-Catch-Throw-Finally
+      try {
+        e.preventDefault();
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch (err) {
+        throw new CalculatorError(err);
+      }
+      finally {
+        console.log("End");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // Console Log
+    errorBtns[0].addEventListener("click", function () {
+      console.log("Console Log Demo");
+    });
+
+    // Console Error
+    errorBtns[1].addEventListener("click", function () {
+      console.error("Console Error Demo");
+    });
+
+    // Console Count
+    errorBtns[2].addEventListener("click", function () {
+      console.count("Count Button");
+    });
+
+    // Console Warn
+    errorBtns[3].addEventListener("click", function () {
+      console.warn("Console Warn Button");
+    });
+
+    // Console Assert
+    errorBtns[4].addEventListener("click", function () {
+      let number = 2;
+      let errorMsg = "The number does not equal 3"
+      console.assert(number % 2 === 3, "%o", { number, errorMsg });
+    });
+
+    // Console Clear
+    errorBtns[5].addEventListener("click", function () {
+      console.clear();
+    });
+
+    // Console Dir
+    errorBtns[6].addEventListener("click", function () {
+      console.dir(errorBtns[6]);
+    });
+
+    // Console dirxml
+    errorBtns[7].addEventListener("click", function () {
+      console.dirxml(errorBtns[7]);
+    });
+
+    // Console Group Start
+    errorBtns[8].addEventListener("click", function () {
+      console.group();
+    });
+
+    // Console Group End
+    errorBtns[9].addEventListener("click", function () {
+      console.groupEnd();
+    });
+
+    // Console Table
+    errorBtns[10].addEventListener("click", function () {
+      const table = [
+        {
+          name: "Software Engineering",
+          num: 110
+        },
+        {
+          name: "Programming Languages: Principles and Paradigms",
+          num: 130
+        },
+        {
+          name: "Advanced Software Engineering",
+          num: 112
+        }
+      ];
+      console.table(table);
+    });
+
+    // Start Timer
+    errorBtns[11].addEventListener("click", function () {
+      console.time("Timer Button");
+    });
+
+    // End Timer
+    errorBtns[12].addEventListener("click", () => {
+      console.timeEnd("Timer Button");
+    });
+
+    // Console Trace
+    errorBtns[13].addEventListener("click", handleBtnClick);
+    function handleBtnClick() {
+      deep();
+    }
+
+    function deep() {
+      deeper();
+    }
+    function deeper() {
+      deepest();
+    }
+    function deepest() {
+      console.trace();
+    }
+
+    // Console Trigger a Global Error
+    errorBtns[14].addEventListener("click", () => {
+      console.log("%cSadly an error happened my friend", "font-style: italic;");
+      throw new Error(boom);
+    });
+
   </script>
 </body>
 
